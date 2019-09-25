@@ -3,11 +3,15 @@ import ReactDOM from "react-dom";
 
 import "./styles.css";
 
+import { Provider } from "react-redux";
+import store from "./store/store";
+import Routes from "./components/route";
+
 function App() {
   return (
-    <div className="App">
-      <h1>Hello CodeSandbox</h1>
-    </div>
+    <Provider store={store}>
+      <Routes />
+    </Provider>
   );
 }
 
