@@ -8,11 +8,11 @@ class Product extends Component {
     this.state = {};
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchProducts();
   }
   render() {
-    return <div>Product</div>;
+    return <div></div>;
   }
 }
 

@@ -1,28 +1,40 @@
 import React, { Component } from "react";
 import "./productCategory.css";
+import PropTypes from "prop-types";
 
 import { fetchCategories } from "../../action/productActions";
 import { connect } from "react-redux";
 
 class ProductCategories extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentWillMount() {
-    this.props.fetchCategories();
+  componentDidMount() {
+    const { fetchCategories } = this.props;
+    fetchCategories();
   }
   render() {
-    return <div>categories</div>;
+    const { isloading, categories } = this.props;
+
+    return (
+      <div>
+        {isloading && categories && <p>Loading...</p>}
+
+        {categories &&
+          Object.keys(categories).map((key, index) => (
+            <p key={index}>{categories[key].name}</p>
+          ))}
+      </div>
+    );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    categories: state.product.productCategories
-  };
+ProductCategories.prototypes = {
+  categories: PropTypes.array.isRequired,
+  isloading: PropTypes.bool.isRequired
 };
+
+const mapStateToProps = state => ({
+  categories: state.product.productCategories,
+  isloading: state.product.isloading
+});
 
 export default connect(
   mapStateToProps,
