@@ -1,33 +1,21 @@
 import React, { Component } from "react";
-
-import { fetchProducts } from "../../action/productActions";
-import { connect } from "react-redux";
+import "./home.css";
+import Product from "../Product/product";
+import ProductCategories from "../productCategories/productCategories";
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-
-  componentWillMount() {
-    this.props.fetchProducts();
-  }
   render() {
     return (
       <div>
-        <p>hello</p>
+        <ProductCategories />
+        <Product />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    products: state.product.products
-  };
-};
-
-export default connect(
-  null,
-  { fetchProducts }
-)(Home);
+export default Home;

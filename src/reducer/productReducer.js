@@ -1,7 +1,8 @@
-import { FETCH_PRODUCTS } from "../action/actionTypes";
+import { FETCH_PRODUCTS, FETECH_CATEGORIES } from "../action/actionTypes";
 
 const initialState = {
-  products: false
+  productsList: [],
+  productCategories: []
 };
 
 export default function(state = initialState, action) {
@@ -9,7 +10,12 @@ export default function(state = initialState, action) {
     case FETCH_PRODUCTS:
       return {
         ...state,
-        products: []
+        productsList: []
+      };
+    case FETECH_CATEGORIES:
+      return {
+        ...state,
+        productCategories: []
       };
     default:
       return state;
