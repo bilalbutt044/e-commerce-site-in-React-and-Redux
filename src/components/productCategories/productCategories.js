@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import "./productCategory.css";
-import PropTypes from "prop-types";
 
+import { Nav, NavLink } from "reactstrap";
+
+import PropTypes from "prop-types";
 import { fetchCategories } from "../../action/productActions";
 import { connect } from "react-redux";
 
+import { Link } from "react-router-dom";
 class ProductCategories extends Component {
   componentDidMount() {
     const { fetchCategories } = this.props;
@@ -16,11 +19,28 @@ class ProductCategories extends Component {
     return (
       <div>
         {isloading && categories && <p>Loading...</p>}
-
-        {categories &&
-          Object.keys(categories).map((key, index) => (
-            <p key={index}>{categories[key].name}</p>
-          ))}
+        <div className="sticky-top">
+          <Nav vertical className="list-group">
+            <NavLink
+              tag={Link}
+              to="/"
+              className="list-group-item list-group-item-action"
+            >
+              All categories
+            </NavLink>
+            {categories &&
+              Object.keys(categories).map((key, index) => (
+                <NavLink
+                  className="list-group-item list-group-item-action"
+                  key={index}
+                  tag={Link}
+                  to="/"
+                >
+                  {categories[key].name}
+                </NavLink>
+              ))}
+          </Nav>
+        </div>
       </div>
     );
   }
