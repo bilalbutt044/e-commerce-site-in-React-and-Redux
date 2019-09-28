@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import "./products.css";
+
 import { fetchProducts } from "../../action/productActions";
 import { connect } from "react-redux";
-import "./products.css";
+
+import ProductCard from "../productCard/productCard";
 class Product extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +15,17 @@ class Product extends Component {
     this.props.fetchProducts();
   }
   render() {
-    return <div></div>;
+    const { products } = this.props;
+    return (
+      <div className="row sticky-top">
+        {products &&
+          Object.keys(products).map((key, index) => (
+            <div className="col-md-6" key={index}>
+              <ProductCard products={products[key]} index={index} id={key} />
+            </div>
+          ))}
+      </div>
+    );
   }
 }
 

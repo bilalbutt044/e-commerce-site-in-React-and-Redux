@@ -1,9 +1,10 @@
 import {
-  FETCH_PRODUCTS,
-  FETECH_CATEGORIES,
+  FETCH_CATEGORIES_SUCCESS,
+  FETCH_CATEGORIES_ERROR,
+  FETCH_CATEGORIES_REQUEST,
+  FETCH_PRODUCTS_REQUEST,
   FETCH_PRODUCTS_SUCCESS,
-  FETCH_PRODUCTS_ERROR,
-  FETCH_PRODUCTS_REQUEST
+  FETCH_PRODUCTS_ERROR
 } from "../action/actionTypes";
 
 const initialState = {
@@ -13,32 +14,40 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case FETCH_PRODUCTS:
-      return {
-        ...state,
-        productsList: []
-      };
     case FETCH_PRODUCTS_REQUEST:
       return {
         ...state,
         isloading: true,
-        productCategories: []
+        productsList: []
       };
     case FETCH_PRODUCTS_SUCCESS:
       return {
         ...state,
         isloading: false,
-        productCategories: action.payload
+        productsList: action.payload
       };
     case FETCH_PRODUCTS_ERROR:
       return {
         ...state,
         isloading: false
       };
-    case FETECH_CATEGORIES:
+
+    case FETCH_CATEGORIES_REQUEST:
       return {
         ...state,
+        isloading: true,
+        productCategories: []
+      };
+    case FETCH_CATEGORIES_SUCCESS:
+      return {
+        ...state,
+        isloading: false,
         productCategories: action.payload
+      };
+    case FETCH_CATEGORIES_ERROR:
+      return {
+        ...state,
+        isloading: false
       };
     default:
       return state;
