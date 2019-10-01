@@ -34,7 +34,7 @@ class ProductCategories extends Component {
                   className="list-group-item list-group-item-action"
                   key={index}
                   tag={Link}
-                  to="/"
+                  to={{ search: `?category=${key}` }}
                 >
                   {categories[key].name}
                 </NavLink>

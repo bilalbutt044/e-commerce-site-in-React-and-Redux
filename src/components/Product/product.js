@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import "./products.css";
+import { withRouter } from "react-router-dom";
 
 import { fetchProducts } from "../../action/productActions";
 import { connect } from "react-redux";
-
 import ProductCard from "../productCard/productCard";
+import queryString from "query-string";
 class Product extends Component {
   constructor(props) {
     super(props);
@@ -15,15 +16,32 @@ class Product extends Component {
     this.props.fetchProducts();
   }
   render() {
-    const { products } = this.props;
+    const search = this.props.location.search;
+    const { category } = queryString.parse(search);
+    let { products } = this.props;
+
     return (
       <div className="row sticky-top">
-        {products &&
-          Object.keys(products).map((key, index) => (
-            <div className="col-md-6" key={index}>
-              <ProductCard products={products[key]} index={index} id={key} />
-            </div>
-          ))}
+        {products && category === undefined
+          ? Object.keys(products).map((key, index) => (
+              <div className="col-md-6" key={index}>
+                <ProductCard products={products[key]} index={index} id={key} />
+              </div>
+            ))
+          : Object.keys(products).map((key, index) => {
+              console.log(products[key].category, category);
+              if (products[key].category === category) {
+                return (
+                  <div className="col-md-6" key={index}>
+                    <ProductCard
+                      products={products[key]}
+                      index={index}
+                      id={key}
+                    />
+                  </div>
+                );
+              } else return null;
+            })}
       </div>
     );
   }
@@ -34,7 +52,9 @@ const mapStateToProps = state => {
     products: state.product.productsList
   };
 };
-export default connect(
-  mapStateToProps,
-  { fetchProducts }
-)(Product);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { fetchProducts }
+  )(Product)
+);

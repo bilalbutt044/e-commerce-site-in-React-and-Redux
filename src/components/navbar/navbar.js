@@ -10,7 +10,7 @@ import {
   NavItem,
   NavLink
 } from "reactstrap";
-
+import { connect } from "react-redux";
 class NavBar extends Component {
   constructor(props) {
     super(props);
@@ -35,13 +35,16 @@ class NavBar extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav navbar>
               <NavItem>
-                <NavLink tag={Link} to="/home">
-                  Components
+                <NavLink tag={Link} to="/shopping-cart">
+                  shopping-cart
+                  <span className="badge badge-warning badge-pill">
+                    {this.props.item.length}
+                  </span>
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} to="/dashobard">
-                  GitHub
+                  Login
                 </NavLink>
               </NavItem>
             </Nav>
@@ -52,4 +55,10 @@ class NavBar extends Component {
   }
 }
 
-export default NavBar;
+const mapStateToProps = state => ({
+  item: state.cart.items
+});
+export default connect(
+  mapStateToProps,
+  null
+)(NavBar);
