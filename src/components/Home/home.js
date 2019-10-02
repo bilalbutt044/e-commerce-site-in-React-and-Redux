@@ -4,10 +4,6 @@ import Product from "../Product/product";
 import ProductCategories from "../productCategories/productCategories";
 import NavBar from "../navbar/navbar";
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   render() {
     return (
       <div>

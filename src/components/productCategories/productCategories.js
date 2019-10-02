@@ -8,6 +8,8 @@ import { fetchCategories } from "../../action/productActions";
 import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
+import { Spinner } from "reactstrap";
+
 class ProductCategories extends Component {
   componentDidMount() {
     const { fetchCategories } = this.props;
@@ -15,32 +17,37 @@ class ProductCategories extends Component {
   }
   render() {
     const { isloading, categories } = this.props;
-
     return (
       <div>
-        {isloading && categories && <p>Loading...</p>}
-        <div className="sticky-top">
-          <Nav vertical className="list-group">
-            <NavLink
-              tag={Link}
-              to="/"
-              className="list-group-item list-group-item-action"
-            >
-              All categories
-            </NavLink>
-            {categories &&
-              Object.keys(categories).map((key, index) => (
-                <NavLink
-                  className="list-group-item list-group-item-action"
-                  key={index}
-                  tag={Link}
-                  to={{ search: `?category=${key}` }}
-                >
-                  {categories[key].name}
-                </NavLink>
-              ))}
-          </Nav>
-        </div>
+        {isloading ? (
+          <Spinner
+            color="secondary"
+            style={{ position: "relative", top: "161px", left: "100px" }}
+          />
+        ) : (
+          <div className="sticky-top">
+            <Nav vertical className="list-group">
+              <NavLink
+                tag={Link}
+                to="/"
+                className="list-group-item list-group-item-action"
+              >
+                All categories
+              </NavLink>
+              {categories &&
+                Object.keys(categories).map((key, index) => (
+                  <NavLink
+                    className="list-group-item list-group-item-action"
+                    key={index}
+                    tag={Link}
+                    to={{ search: `?category=${key}` }}
+                  >
+                    {categories[key].name}
+                  </NavLink>
+                ))}
+            </Nav>
+          </div>
+        )}
       </div>
     );
   }

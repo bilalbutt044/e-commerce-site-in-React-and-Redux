@@ -1,0 +1,14 @@
+.heading {
+  margin-top: 20px;
+}
+
+tbody,
+thead {
+  text-align: center;
+}
+.product-img {
+  height: 80px;
+  width: 80px;
+  border-radius: 100%;
+  background-size: cover;
+}
