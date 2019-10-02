@@ -5,6 +5,7 @@ import { Button, Table } from "reactstrap";
 import ProductQuantity from "../productQuantity/productQuantity";
 import "./shoppingCart.css";
 import { clearCart } from "../../action/cartAction";
+import { Redirect } from "react-router-dom";
 class ShoppingCart extends Component {
   constructor(props) {
     super(props);
@@ -73,6 +74,14 @@ class ShoppingCart extends Component {
                 </tr>
               </tfoot>
             </Table>
+            <div className="checkout">
+              <Button
+                color="primary"
+                onClick={() => this.props.history.push("/check-out")}
+              >
+                Checkout
+              </Button>
+            </div>
           </div>
         </div>
       </div>
