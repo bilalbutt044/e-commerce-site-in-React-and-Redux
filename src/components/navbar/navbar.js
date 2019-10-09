@@ -11,6 +11,14 @@ import {
   NavLink
 } from "reactstrap";
 import { connect } from "react-redux";
+import firebase from "../../config";
+import {
+  FirebaseAuthProvider,
+  FirebaseAuthConsumer,
+  IfFirebaseAuthed,
+  IfFirebaseAuthedAnd
+} from "@react-firebase/auth";
+
 class NavBar extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +32,13 @@ class NavBar extends Component {
       isOpen: !this.state.isOpen
     });
   }
+
+  login = () => {
+    firebase
+      .auth()
+      .signInWithRedirect(new firebase.auth.GoogleAuthProvider())
+      .then(res => localStorage.setItem("res", res));
+  };
   render() {
     return (
       <div>
@@ -43,9 +58,22 @@ class NavBar extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} to="/dashobard">
-                  Login
-                </NavLink>
+                <FirebaseAuthConsumer>
+                  {({ isSignedIn, user, providerId }) => {
+                    if (isSignedIn) {
+                      return (
+                        <NavLink tag={Link} to="#">
+                          {user.displayName}
+                        </NavLink>
+                      );
+                    } else
+                      return (
+                        <NavLink tag={Link} to="#">
+                          Login
+                        </NavLink>
+                      );
+                  }}
+                </FirebaseAuthConsumer>
               </NavItem>
             </Nav>
           </Collapse>

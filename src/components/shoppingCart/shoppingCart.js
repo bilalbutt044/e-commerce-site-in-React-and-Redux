@@ -4,8 +4,8 @@ import NavBar from "../navbar/navbar";
 import { Button, Table } from "reactstrap";
 import ProductQuantity from "../productQuantity/productQuantity";
 import "./shoppingCart.css";
-import { clearCart } from "../../action/cartAction";
-import { Redirect } from "react-router-dom";
+import { addToCart, removeFromCart, clearCart } from "../../action/cartAction";
+
 class ShoppingCart extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +14,23 @@ class ShoppingCart extends Component {
 
   clearCart = () => {
     this.props.clearCart();
+  };
+  addToCart = (id, product) => {
+    const item = {
+      ...product,
+      quantity: 1,
+      id: id
+    };
+    this.props.addToCart(this.props.item, item);
+  };
+
+  removeFromCart = id => {
+    const product = {
+      ...this.props.product,
+      quantity: 1,
+      id: id
+    };
+    this.props.removeFromCart(this.props.item, product);
   };
   render() {
     const item = this.props.item;
@@ -55,7 +72,13 @@ class ShoppingCart extends Component {
                     </td>
                     <td>{product.title}</td>
                     <td>
-                      <ProductQuantity id={product.id} product={product} />
+                      <ProductQuantity
+                        id={product.id}
+                        product={product}
+                        item={this.props.item}
+                        addToCart={this.addToCart}
+                        removeFromCart={this.removeFromCart}
+                      />
                     </td>
                     <td>
                       {parseFloat(product.price * product.quantity).toFixed(2)}
@@ -94,5 +117,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { clearCart }
+  { addToCart, removeFromCart, clearCart }
 )(ShoppingCart);

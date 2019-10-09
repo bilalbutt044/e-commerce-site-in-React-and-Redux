@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Card,
   CardImg,
@@ -9,52 +9,39 @@ import {
 } from "reactstrap";
 import "./productCard.css";
 
-import { addToCart } from "../../action/cartAction";
-import { connect } from "react-redux";
 import ProductQuantity from "../productQuantity/productQuantity";
-class ProductCard extends Component {
-  addToCart = () => {
-    const id = this.props.id;
-    const product = {
-      ...this.props.products,
-      quantity: 1,
-      id: id
-    };
-    this.props.addToCart(this.props.item, product);
-  };
-  render() {
-    const { imageUrl, price, title } = this.props.products;
-    const id = this.props.id;
-    const product = this.props.item.filter(p => p.id === id);
-    let quantity = 0;
-    if (product.length > 0) {
-      quantity = product[0].quantity;
-    }
-    return (
-      <div>
-        <Card className="custom-card">
-          <CardImg top width="100%" src={imageUrl} alt={title} />
-          <CardBody>
-            <CardTitle>{title}</CardTitle>
-            <CardSubtitle>Price: {price}</CardSubtitle>
-          </CardBody>
-          {quantity === 0 ? (
-            <Button color="primary" block onClick={this.addToCart}>
-              Add To cart
-            </Button>
-          ) : (
-            <ProductQuantity id={this.props.id} product={this.props.products} />
-          )}
-        </Card>
-      </div>
-    );
-  }
-}
 
-const mapStateToProps = state => ({
-  item: state.cart.items
-});
-export default connect(
-  mapStateToProps,
-  { addToCart }
-)(ProductCard);
+const ProductCard = ({ products, id, addToCart, removeFromCart, item }) => {
+  const { imageUrl, price, title } = products;
+  const product = item.filter(p => p.id === id);
+  let quantity = 0;
+  if (product.length > 0) {
+    quantity = product[0].quantity;
+  }
+  return (
+    <div>
+      <Card className="custom-card">
+        <CardImg top width="100%" src={imageUrl} alt={title} />
+        <CardBody>
+          <CardTitle>{title}</CardTitle>
+          <CardSubtitle>Price: {price}</CardSubtitle>
+        </CardBody>
+        {quantity === 0 ? (
+          <Button color="primary" block onClick={() => addToCart(id, products)}>
+            Add To cart
+          </Button>
+        ) : (
+          <ProductQuantity
+            id={id}
+            product={products}
+            addToCart={addToCart}
+            removeFromCart={removeFromCart}
+            item={item}
+          />
+        )}
+      </Card>
+    </div>
+  );
+};
+
+export default ProductCard;
